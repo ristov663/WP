@@ -1,0 +1,87 @@
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <title>Add new Performer to Book</title>
+  <style type = "text/css">
+    body {
+      width: 800px;
+      margin: auto;
+    }
+    table {
+      width:100%;
+    }
+    table, td, th {
+      border: 1px solid black;
+      padding:3px 2px;
+    }
+    section {
+      float: left;
+      margin: 0 1.5%;
+      width: 63%;
+    }
+    aside {
+      float: right;
+      margin: 0 1.5%;
+      width: 30%;
+    }
+  </style>
+</head>
+<body>
+
+<header xmlns:sec="http://www.w3.org/1999/xhtml">
+  <nav style="background-color: #f8f9fa; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+      <a href="/" style="text-decoration: none; font-size: 24px; font-weight: bold; color: #333;">Welcome to My Music Store</a>
+    </div>
+
+
+    <div>
+      <div sec:authorize="isAuthenticated()">
+                <span class="nav-item">
+                    <i class="fa-solid fa-user"></i>
+                    Welcome, <strong sec:authentication="name"></strong>!
+                </span>
+        <a class="btn btn-danger btn-sm ml-3" href="/logout">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+      </div>
+
+      <a class="nav-item" sec:authorize="isAnonymous()">
+        <a class="btn btn-light btn-sm ml-3" href="/login">
+          <i class="fa-solid fa-right-to-bracket"></i> Login
+        </a>
+      </a>
+    </div>
+  </nav>
+  <br>
+  <br>
+  <h1>Select the Artist to add to the List of Performers </h1>
+</header>
+
+
+<section>
+  <h2>Select artist:</h2>
+  <!-- Make changes to this code to dynamically display radio buttons for each artist as in the example -->
+  <form th:method="POST" th:action="@{/songs/details}">
+    <input type="hidden" name="trackId" th:value="${trackId}" />
+    <div th:each="artist : ${artistList}">
+      <input type="radio" name="artistId" th:id="${artist.getId()}" th:value="${artist.getId()}" />
+      <label th:for="${artist.getId()}" th:text="${artist.getFirstName()} + ' ' + ${artist.getLastName()}"></label>
+      <br/>
+    </div>
+    <br/>
+
+    <input type='submit' value='Add artist'>
+  </form>
+</section>
+<aside>
+  <table>
+    <tr>
+      <!-- change to show selected trackId -->
+      <td><b>Track Id</b></td>
+      <td th:text="${trackId}">2</td>
+    </tr>
+  </table>
+</aside>
+</body>
+</html>
